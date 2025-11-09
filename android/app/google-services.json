@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "158986913917",
+    "project_id": "persona-ai-b0d88",
+    "storage_bucket": "persona-ai-b0d88.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158986913917:android:4767920fdb143679070914",
+        "android_client_info": {
+          "package_name": "com.persona.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158986913917-jehlruik5btfai5sl1luvfr2eaibd72p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.persona.app",
+            "certificate_hash": "4cef2f10ad0aae84cb5cefd8728d9859bcc8e345"
+          }
+        },
+        {
+          "client_id": "158986913917-ml78f6pgif1dpp6p3cplershkbbamkbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTYijMotkeuUY8I8LitV54qRVgNb22YcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158986913917-ml78f6pgif1dpp6p3cplershkbbamkbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
