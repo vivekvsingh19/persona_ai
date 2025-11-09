@@ -54,7 +54,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     VoidCallback? onTap,
   }) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: InkWell(
@@ -62,17 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: Container(
             margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: isDark
-                  ? Colors.white.withOpacity(0.08)
-                  : Colors.white.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: isDark
-                    ? Colors.white.withOpacity(0.1)
-                    : Colors.black.withOpacity(0.1),
-              ),
-            ),
+
             child: Row(
               children: [
                 Container(
@@ -358,23 +347,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildSectionHeader('Appearance', isDark),
               _buildThemeSwitcher(isDark),
 
-              _buildSectionHeader('Privacy & Security', isDark),
-              _buildGlassSettingTile(
-                icon: Icons.security,
-                title: 'Privacy',
-                subtitle: 'Manage privacy settings',
-                gradient: const [Color(0xFFFFE37E), Color(0xFF6EE7F0)],
-                isDark: isDark,
-                onTap: () {},
-              ),
-              _buildGlassSettingTile(
-                icon: Icons.delete_outline,
-                title: 'Clear Data',
-                subtitle: 'Delete chat history and cache',
-                gradient: const [Color(0xFFFF8AD4), Color(0xFF6EE7F0)],
-                isDark: isDark,
-                onTap: () {},
-              ),
               _buildSectionHeader('Help & About', isDark),
               _buildGlassSettingTile(
                 icon: Icons.info_outline,
