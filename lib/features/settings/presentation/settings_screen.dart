@@ -364,7 +364,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 isDark: isDark,
                 onTap: () {},
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 10),
 
               // Sign Out Button
               _buildGlassSettingTile(
