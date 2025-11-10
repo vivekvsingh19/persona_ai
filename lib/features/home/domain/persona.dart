@@ -66,19 +66,19 @@ class Persona {
       category: 'Health',
       gradient: [Color(0xFF059669), Color(0xFF10B981)],
     ),
-    Persona(
-      name: 'Study Buddy',
-      description: 'Academic support and learning assistance',
-      image: 'https://images.unsplash.com/photo-1629425733761-caae3b5f2e50',
-      category: 'Education',
-      gradient: [Color(0xFFF59E0B), Color(0xFFFBBF24)],
-    ),
-    Persona(
-      name: 'Tech Advisor',
-      description: 'Technology and digital solutions',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2',
-      category: 'Technology',
-      gradient: [Color(0xFF06B6D4), Color(0xFF22D3EE)],
-    ),
+    // Persona(
+    //   name: 'Study Buddy',
+    //   description: 'Academic support and learning assistance',
+    //   image: 'https://images.unsplash.com/photo-1629425733761-caae3b5f2e50',
+    //   category: 'Education',
+    //   gradient: [Color(0xFFF59E0B), Color(0xFFFBBF24)],
+    // ),
+    // Persona(
+    //   name: 'Tech Advisor',
+    //   description: 'Technology and digital solutions',
+    //   image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2',
+    //   category: 'Technology',
+    //   gradient: [Color(0xFF06B6D4), Color(0xFF22D3EE)],
+    // ),
   ];
 }

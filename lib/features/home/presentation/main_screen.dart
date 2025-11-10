@@ -81,6 +81,14 @@ class _MainScreenState extends State<MainScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16),
+        // decoration: isSelected
+        //     ? BoxDecoration(
+        //         shape: BoxShape.circle,
+        //         color: const Color(0xFFFF8DC7).withOpacity(0.2),
+        //       )
+        //     : null,
+        // child: Padding(
+        //   padding: isSelected ? const EdgeInsets.all(8) : EdgeInsets.zero,
         child: Icon(
           icon,
           size: 28,
@@ -89,6 +97,7 @@ class _MainScreenState extends State<MainScreen> {
               : isDark
               ? Colors.white.withOpacity(0.6)
               : Colors.black.withOpacity(0.5),
+          //  ),
         ),
       ),
     );

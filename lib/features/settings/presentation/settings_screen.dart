@@ -12,23 +12,231 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  bool _isCheckingUpdate = false;
+  bool _isPro = false; // Track if user has pro subscription
+
   void _changeTheme(ThemeMode themeMode) {
     final themeService = ThemeService();
     themeService.setThemeMode(themeMode);
+  }
 
-    String themeName = themeMode == ThemeMode.light
-        ? 'Light Theme'
-        : themeMode == ThemeMode.dark
-        ? 'Dark Theme'
-        : 'System Theme';
+  Future<void> _checkForUpdate() async {
+    setState(() {
+      _isCheckingUpdate = true;
+    });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Switched to $themeName'),
-        duration: const Duration(seconds: 2),
-        backgroundColor: Colors.green,
+    try {
+      // Simulate checking for updates
+      await Future.delayed(const Duration(seconds: 2));
+
+      if (mounted) {
+        // Check if update is available
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to check for updates: $e'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isCheckingUpdate = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _upgradeToPro() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('🚀 Upgrade to Pro'),
+          content: const SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Unlock Premium Features:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 12),
+                Text('✓ Unlimited chat messages'),
+                SizedBox(height: 8),
+                Text('✓ Advanced AI personas'),
+                SizedBox(height: 8),
+                Text('✓ Priority support'),
+                SizedBox(height: 8),
+                Text('✓ Custom themes'),
+                SizedBox(height: 8),
+                Text('✓ Ad-free experience'),
+                SizedBox(height: 16),
+                Text(
+                  'Pricing: \$9.99/month or \$79.99/year',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _processSubscription();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFB38CFF),
+              ),
+              child: const Text(
+                'Upgrade Now',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _processSubscription() async {
+    // Payment processing parameters
+    final subscriptionDetails = {
+      'productId': 'ai_persona_pro_monthly', // Monthly subscription
+      'productIdYearly': 'ai_persona_pro_yearly', // Yearly subscription
+      'price': 9.99,
+      'priceYearly': 79.99,
+      'currency': 'USD',
+      'description': 'Premium access to AI Persona',
+      'features': [
+        'Unlimited chat messages',
+        'Advanced AI personas',
+        'Priority support',
+        'Custom themes',
+        'Ad-free experience',
+      ],
+    };
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Select Plan'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildPricingCard(
+                plan: 'Monthly',
+                price: '\$${subscriptionDetails['price']}',
+                period: '/month',
+                productId: subscriptionDetails['productId'] as String,
+              ),
+              const SizedBox(height: 16),
+              _buildPricingCard(
+                plan: 'Yearly',
+                price: '\$${subscriptionDetails['priceYearly']}',
+                period: '/year (Save 33%)',
+                productId: subscriptionDetails['productIdYearly'] as String,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildPricingCard({
+    required String plan,
+    required String price,
+    required String period,
+    required String productId,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFFB38CFF)),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          Text(
+            plan,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            price,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFFB38CFF),
+            ),
+          ),
+          Text(
+            period,
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+          const SizedBox(height: 12),
+          ElevatedButton(
+            onPressed: () {
+              // Integrate with payment gateway (Stripe, RevenueCat, etc.)
+              _handlePayment(productId, plan);
+              Navigator.pop(context);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFB38CFF),
+            ),
+            child: const Text(
+              'Subscribe',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> _handlePayment(String productId, String planName) async {
+    // Payment processing logic
+    // TODO: Integrate with payment gateway (Stripe, RevenueCat, etc.)
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Processing $planName subscription (Product: $productId)...',
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+
+    // Simulate payment processing
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
+      _isPro = true;
+    });
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('🎉 Successfully upgraded to Pro!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   Widget _buildSectionHeader(String title, bool isDark) {
@@ -45,6 +253,101 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Widget _buildProCard(bool isDark) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFFB38CFF).withOpacity(0.2),
+            const Color(0xFF7DE2FF).withOpacity(0.2),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFB38CFF).withOpacity(0.5),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFB38CFF).withOpacity(0.15),
+            blurRadius: 12,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.star, color: Color(0xFFB38CFF), size: 28),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _isPro ? '✓ Pro Member' : 'Upgrade to Pro',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: _isPro
+                            ? Colors.green
+                            : (isDark ? Colors.white : Colors.black87),
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      _isPro
+                          ? 'Enjoy unlimited features'
+                          : 'Get unlimited chats & premium features',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isDark
+                            ? Colors.white.withOpacity(0.6)
+                            : Colors.black.withOpacity(0.6),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          if (!_isPro) ...[
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: _upgradeToPro,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFB38CFF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: const Text(
+                      'Upgrade Now',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
   Widget _buildGlassSettingTile({
     required IconData icon,
     required String title,
@@ -53,69 +356,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
     required bool isDark,
     VoidCallback? onTap,
   }) {
+    final isDisabled = onTap == null;
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: InkWell(
           onTap: onTap,
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.all(16),
-
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: gradient,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+          child: Opacity(
+            opacity: isDisabled ? 0.6 : 1.0,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  //const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? Colors.white : Colors.black87,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          subtitle,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: isDark
+                                ? Colors.white.withOpacity(0.6)
+                                : Colors.black.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: gradient[0].withOpacity(0.5),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
                   ),
-                  child: Icon(icon, color: Colors.white, size: 24),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        subtitle,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isDark
-                              ? Colors.white.withOpacity(0.6)
-                              : Colors.black.withOpacity(0.6),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  Icons.chevron_right,
-                  color: isDark
-                      ? Colors.white.withOpacity(0.3)
-                      : Colors.black.withOpacity(0.3),
-                ),
-              ],
+                  // Icon(
+                  //   Icons.chevron_right,
+                  //   color: isDark
+                  //       ? Colors.white.withOpacity(0.3)
+                  //       : Colors.black.withOpacity(0.3),
+                  // ),
+                ],
+              ),
             ),
           ),
         ),
@@ -131,170 +418,153 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Container(
           margin: const EdgeInsets.only(bottom: 16),
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: isDark
-                ? Colors.white.withOpacity(0.08)
-                : Colors.white.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: isDark
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.1),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          // decoration: BoxDecoration(
+          //   color: isDark
+          //       ? Colors.white.withOpacity(0.08)
+          //       : Colors.white.withOpacity(0.5),
+          //   borderRadius: BorderRadius.circular(20),
+          //   border: Border.all(
+          //     color: isDark
+          //         ? Colors.white.withOpacity(0.1)
+          //         : Colors.black.withOpacity(0.1),
+          //   ),
+          // ),
+          child: Row(
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [Color(0xFFB38CFF), Color(0xFF7DE2FF)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Dark Mode',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : Colors.black87,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFFB38CFF),
-                          blurRadius: 6,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
                     ),
-                    child: const Icon(
-                      Icons.brush_outlined,
-                      color: Colors.white,
-                      size: 24,
+                    const SizedBox(height: 4),
+                    Text(
+                      'Toggle dark theme',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: isDark
+                            ? Colors.white.withOpacity(0.6)
+                            : Colors.black.withOpacity(0.6),
+                      ),
                     ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _changeTheme(isDark ? ThemeMode.light : ThemeMode.dark);
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.easeInOut,
+                  width: 70,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: isDark
+                        ? const Color.fromARGB(
+                            255,
+                            255,
+                            255,
+                            255,
+                          ).withOpacity(0.3)
+                        : const Color(0xFFFFB800).withOpacity(0.2),
+                    border: Border.all(
+                      color: isDark
+                          ? const Color.fromARGB(255, 0, 0, 0).withOpacity(0.6)
+                          : const Color(0xFFFFB800).withOpacity(0.6),
+                      width: 2,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: isDark
+                            ? const Color.fromARGB(
+                                255,
+                                0,
+                                0,
+                                0,
+                              ).withOpacity(0.2)
+                            : const Color(0xFFFFB800).withOpacity(0.2),
+                        blurRadius: 8,
+                        spreadRadius: 1,
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Text(
-                        'Theme',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : Colors.black87,
+                      // Background track
+                      Container(
+                        width: 70,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Choose your preferred theme',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isDark
-                              ? Colors.white.withOpacity(0.6)
-                              : Colors.black.withOpacity(0.6),
+                      // Animated toggle button
+                      AnimatedAlign(
+                        alignment: isDark
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isDark
+                                ? const Color.fromARGB(255, 0, 0, 0)
+                                : const Color(0xFFFFB800),
+                            boxShadow: [
+                              BoxShadow(
+                                color: isDark
+                                    ? const Color.fromARGB(
+                                        255,
+                                        0,
+                                        0,
+                                        0,
+                                      ).withOpacity(0.5)
+                                    : const Color(0xFFFFB800).withOpacity(0.5),
+                                blurRadius: 6,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 300),
+                              transitionBuilder: (child, animation) {
+                                return ScaleTransition(
+                                  scale: animation,
+                                  child: child,
+                                );
+                              },
+                              child: Icon(
+                                isDark ? Icons.nights_stay : Icons.wb_sunny,
+                                key: ValueKey<bool>(isDark),
+                                color: Colors.white,
+                                size: 18,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildThemeButton(
-                      label: 'Light',
-                      icon: Icons.light_mode,
-                      isSelected: !isDark,
-                      isDark: isDark,
-                      onTap: () {
-                        _changeTheme(ThemeMode.light);
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildThemeButton(
-                      label: 'Dark',
-                      icon: Icons.dark_mode,
-                      isSelected: isDark,
-                      isDark: isDark,
-                      onTap: () {
-                        _changeTheme(ThemeMode.dark);
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildThemeButton(
-                      label: 'System',
-                      icon: Icons.settings_suggest,
-                      isSelected: false,
-                      isDark: isDark,
-                      onTap: () {
-                        _changeTheme(ThemeMode.system);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              const SizedBox(width: 8),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildThemeButton({
-    required String label,
-    required IconData icon,
-    required bool isSelected,
-    required bool isDark,
-    VoidCallback? onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? const Color(0xFFB38CFF).withOpacity(0.3)
-              : isDark
-              ? Colors.white.withOpacity(0.05)
-              : Colors.black.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected
-                ? const Color(0xFFB38CFF)
-                : isDark
-                ? Colors.white.withOpacity(0.1)
-                : Colors.black.withOpacity(0.1),
-            width: isSelected ? 2 : 1,
-          ),
-        ),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              color: isSelected
-                  ? const Color(0xFFB38CFF)
-                  : isDark
-                  ? Colors.white.withOpacity(0.6)
-                  : Colors.black.withOpacity(0.6),
-              size: 20,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected
-                    ? const Color(0xFFB38CFF)
-                    : isDark
-                    ? Colors.white.withOpacity(0.6)
-                    : Colors.black.withOpacity(0.6),
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -312,7 +582,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: isDark
             ? const Color(0xFF121212)
             : const Color(0xFFFFF5F5),
-        elevation: 0,
+
         title: Text(
           'Settings',
           style: TextStyle(
@@ -344,10 +614,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 isDark: isDark,
                 onTap: () {},
               ),
-              _buildSectionHeader('Appearance', isDark),
+              _buildSectionHeader('Subscription', isDark),
+              _buildProCard(isDark),
               _buildThemeSwitcher(isDark),
 
               _buildSectionHeader('Help & About', isDark),
+              _buildGlassSettingTile(
+                icon: Icons.system_update_outlined,
+                title: 'Check Update',
+                subtitle: _isCheckingUpdate
+                    ? 'Checking for updates...'
+                    : 'Check for app updates',
+                gradient: const [Color(0xFFB38CFF), Color(0xFF7DE2FF)],
+                isDark: isDark,
+                onTap: _isCheckingUpdate ? null : _checkForUpdate,
+              ),
               _buildGlassSettingTile(
                 icon: Icons.info_outline,
                 title: 'About',

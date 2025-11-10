@@ -28,49 +28,13 @@ class _LoginScreenState extends State<LoginScreen> {
       final userCredential = await GoogleAuthService.signInWithGoogle();
 
       if (userCredential != null && mounted) {
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Google sign-in successful!'),
-            backgroundColor: Colors.green,
-          ),
-        );
-
         // Navigate to main app
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const MainScreen()),
         );
       }
-    } on FirebaseAuthException catch (e) {
-      String errorMessage = 'Google sign-in failed';
-
-      switch (e.code) {
-        case 'account-exists-with-different-credential':
-          errorMessage = 'An account already exists with this email address.';
-          break;
-        case 'invalid-credential':
-          errorMessage = 'Invalid credentials provided.';
-          break;
-        case 'operation-not-allowed':
-          errorMessage = 'Google sign-in is not enabled.';
-          break;
-        default:
-          errorMessage = e.message ?? 'Google sign-in failed';
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
-      );
+    } on FirebaseAuthException {
     } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Google sign-in failed: $error'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
       if (mounted) {
         setState(() {
           _isLoading = false;

@@ -92,6 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final List<Color> gradientColors =
         widget.persona['gradient'] as List<Color>;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -159,11 +160,30 @@ class _ChatScreenState extends State<ChatScreen> {
                               color: gradientColors[0],
                               width: 2,
                             ),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                widget.persona['image'] as String,
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              _getPersonaBackgroundImage(
+                                widget.persona['name'] as String,
                               ),
                               fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: gradientColors,
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -192,34 +212,20 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         const Spacer(),
 
-                        // Optional actions
+                        const SizedBox(width: 8),
                         // Container(
                         //   decoration: BoxDecoration(
-                        //     color: Colors.white.withOpacity(0.2),
+                        //     color: Colors.white.withOpacity(0.1),
                         //     shape: BoxShape.circle,
                         //   ),
-                        //   // child: IconButton(
-                        //   //   icon: const Icon(
-                        //   //     Icons.call,
-                        //   //     color: Color(0xFF2D3142),
-                        //   //   ),
-                        //   //   onPressed: () {},
-                        //   // ),
+                        //   child: IconButton(
+                        //     icon: const Icon(
+                        //       Icons.more_vert,
+                        //       color: Colors.white,
+                        //     ),
+                        //     onPressed: () {},
+                        //   ),
                         // ),
-                        const SizedBox(width: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.more_vert,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -285,10 +291,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.08),
+                          color: isDarkMode
+                              ? Colors.white.withOpacity(0.08)
+                              : Colors.black.withOpacity(0.08),
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.15),
+                            color: isDarkMode
+                                ? Colors.white.withOpacity(0.15)
+                                : Colors.black.withOpacity(0.15),
                             width: 1,
                           ),
                           boxShadow: [
@@ -304,7 +314,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           decoration: InputDecoration(
                             hintText: 'Type a message...',
                             hintStyle: TextStyle(
-                              color: Colors.white.withOpacity(0.4),
+                              color: isDarkMode
+                                  ? Colors.white.withOpacity(0.4)
+                                  : Colors.black.withOpacity(0.4),
                             ),
                             border: InputBorder.none,
                             contentPadding: const EdgeInsets.symmetric(
@@ -312,7 +324,9 @@ class _ChatScreenState extends State<ChatScreen> {
                               vertical: 12,
                             ),
                           ),
-                          style: const TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
                           onSubmitted: (_) => _sendMessage(),
                         ),
                       ),
