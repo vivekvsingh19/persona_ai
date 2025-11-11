@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:ai_persona/screens/login_screen.dart';
 import 'package:ai_persona/services/theme_service.dart';
 import 'package:flutter/material.dart';
@@ -5,13 +6,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'features/home/presentation/main_screen.dart';
+import 'web/app/web_app.dart';
 
 import 'theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+
+  // Run appropriate app based on platform
+  if (kIsWeb) {
+    runApp(const WebApp());
+  } else {
+    runApp(const MyApp());
+  }
 }
 
 class MyApp extends StatefulWidget {
