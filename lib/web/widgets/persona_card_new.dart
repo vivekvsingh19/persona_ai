@@ -120,7 +120,7 @@ class _PersonaCardState extends State<PersonaCard> {
                   ),
                 ),
 
-                // Content at bottom
+                // Content with category badge at top and text at bottom
                 Positioned.fill(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
@@ -155,9 +155,11 @@ class _PersonaCardState extends State<PersonaCard> {
                                     ),
                               ),
                             ),
-                          ),
+                          )
+                        else
+                          SizedBox.shrink(),
 
-                        // Title and description
+                        // Title and description at bottom
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

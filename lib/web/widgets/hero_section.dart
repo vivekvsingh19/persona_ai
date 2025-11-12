@@ -25,7 +25,7 @@ class _HeroSectionState extends State<HeroSection> {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 20 : 60,
+        horizontal: isMobile ? 12 : 60,
         vertical: isMobile ? 40 : 80,
       ),
       child: Column(
@@ -35,6 +35,7 @@ class _HeroSectionState extends State<HeroSection> {
           Text(
             'AI Conversations\nThat Feel Alive',
             style: Theme.of(context).textTheme.displayMedium!.copyWith(
+              fontSize: isMobile ? 26 : null,
               color: WebTheme.textPrimary,
               fontWeight: FontWeight.w700,
               height: 1.2,
@@ -54,98 +55,200 @@ class _HeroSectionState extends State<HeroSection> {
           ),
           const SizedBox(height: 40),
           // Buttons
-          Wrap(
-            spacing: 16,
-            runSpacing: 16,
-            children: [
-              // Start Chatting Button
-              MouseRegion(
-                onEnter: (_) => setState(() => isStartChatHovered = true),
-                onExit: (_) => setState(() => isStartChatHovered = false),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: WebTheme.primaryGradient,
-                    borderRadius: BorderRadius.circular(WebTheme.radiusLarge),
-                    boxShadow: isStartChatHovered
-                        ? [
-                            BoxShadow(
-                              color: WebTheme.primaryGradientStart.withOpacity(
-                                0.6,
-                              ),
-                              blurRadius: 20,
-                              spreadRadius: 0,
-                              offset: const Offset(0, 10),
-                            ),
-                          ]
-                        : [],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: widget.onStartChat,
+          if (isMobile)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Start Chatting Button
+                MouseRegion(
+                  onEnter: (_) => setState(() => isStartChatHovered = true),
+                  onExit: (_) => setState(() => isStartChatHovered = false),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: WebTheme.primaryGradient,
                       borderRadius: BorderRadius.circular(WebTheme.radiusLarge),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
-                        ),
-                        child: Text(
-                          'Start Chatting',
-                          style: Theme.of(context).textTheme.labelLarge!
-                              .copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
+                      boxShadow: isStartChatHovered
+                          ? [
+                              BoxShadow(
+                                color: WebTheme.primaryGradientStart
+                                    .withOpacity(0.6),
+                                blurRadius: 20,
+                                spreadRadius: 0,
+                                offset: const Offset(0, 10),
                               ),
+                            ]
+                          : [],
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: widget.onStartChat,
+                        borderRadius: BorderRadius.circular(
+                          WebTheme.radiusLarge,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          child: Text(
+                            'Start Chatting',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              // Explore Personas Button
-              MouseRegion(
-                onEnter: (_) => setState(() => isExploreHovered = true),
-                onExit: (_) => setState(() => isExploreHovered = false),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
+                const SizedBox(height: 12),
+                // Explore Personas Button
+                MouseRegion(
+                  onEnter: (_) => setState(() => isExploreHovered = true),
+                  onExit: (_) => setState(() => isExploreHovered = false),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: isExploreHovered
+                            ? WebTheme.textPrimary
+                            : WebTheme.textSecondary,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(WebTheme.radiusLarge),
                       color: isExploreHovered
-                          ? WebTheme.textPrimary
-                          : WebTheme.textSecondary,
-                      width: 2,
+                          ? Colors.white.withOpacity(0.05)
+                          : Colors.transparent,
                     ),
-                    borderRadius: BorderRadius.circular(WebTheme.radiusLarge),
-                    color: isExploreHovered
-                        ? Colors.white.withOpacity(0.05)
-                        : Colors.transparent,
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: widget.onExplorePersonas,
-                      borderRadius: BorderRadius.circular(WebTheme.radiusLarge),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: widget.onExplorePersonas,
+                        borderRadius: BorderRadius.circular(
+                          WebTheme.radiusLarge,
                         ),
-                        child: Text(
-                          'Explore Personas',
-                          style: Theme.of(context).textTheme.labelLarge!
-                              .copyWith(
-                                color: isExploreHovered
-                                    ? WebTheme.textPrimary
-                                    : WebTheme.textSecondary,
-                                fontWeight: FontWeight.w600,
-                              ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          child: Text(
+                            'Explore Personas',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: isExploreHovered
+                                      ? WebTheme.textPrimary
+                                      : WebTheme.textSecondary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            )
+          else
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                // Start Chatting Button
+                MouseRegion(
+                  onEnter: (_) => setState(() => isStartChatHovered = true),
+                  onExit: (_) => setState(() => isStartChatHovered = false),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: WebTheme.primaryGradient,
+                      borderRadius: BorderRadius.circular(WebTheme.radiusLarge),
+                      boxShadow: isStartChatHovered
+                          ? [
+                              BoxShadow(
+                                color: WebTheme.primaryGradientStart
+                                    .withOpacity(0.6),
+                                blurRadius: 20,
+                                spreadRadius: 0,
+                                offset: const Offset(0, 10),
+                              ),
+                            ]
+                          : [],
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: widget.onStartChat,
+                        borderRadius: BorderRadius.circular(
+                          WebTheme.radiusLarge,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 16,
+                          ),
+                          child: Text(
+                            'Start Chatting',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // Explore Personas Button
+                MouseRegion(
+                  onEnter: (_) => setState(() => isExploreHovered = true),
+                  onExit: (_) => setState(() => isExploreHovered = false),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: isExploreHovered
+                            ? WebTheme.textPrimary
+                            : WebTheme.textSecondary,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(WebTheme.radiusLarge),
+                      color: isExploreHovered
+                          ? Colors.white.withOpacity(0.05)
+                          : Colors.transparent,
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: widget.onExplorePersonas,
+                        borderRadius: BorderRadius.circular(
+                          WebTheme.radiusLarge,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 16,
+                          ),
+                          child: Text(
+                            'Explore Personas',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: isExploreHovered
+                                      ? WebTheme.textPrimary
+                                      : WebTheme.textSecondary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );

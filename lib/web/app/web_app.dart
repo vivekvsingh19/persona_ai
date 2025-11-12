@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../screens/web_home_screen.dart';
 import '../screens/web_login_screen.dart';
 import '../screens/web_chat_interface.dart';
+import '../screens/web_personas_screen.dart';
 import '../theme/web_theme.dart';
 
 class WebApp extends StatelessWidget {
@@ -55,6 +56,7 @@ class WebApp extends StatelessWidget {
       routes: {
         '/': (context) => const WebHomeScreen(),
         '/login': (context) => const WebLoginScreen(),
+        '/personas': (context) => const WebPersonasScreen(),
         '/chat': (context) => const WebChatInterface(),
       },
     );

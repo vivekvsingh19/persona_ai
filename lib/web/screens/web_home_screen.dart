@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../theme/web_theme.dart';
 import '../widgets/glass_container.dart';
 import '../widgets/persona_card_new.dart';
@@ -17,6 +18,21 @@ class WebHomeScreen extends StatefulWidget {
 }
 
 class _WebHomeScreenState extends State<WebHomeScreen> {
+  late ScrollController _scrollController;
+  final GlobalKey _chooseSectionKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   // Featured personas with images
   final List<Map<String, String>> featuredPersonas = [
     {
@@ -69,13 +85,46 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
     {'text': 'Let\'s break it down together.', 'isUser': false},
   ];
 
+  /// Check if user is logged in, if not redirect to login
+  void _handleStartChatting() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // User is logged in, scroll to choose section
+      _scrollToChooseSection();
+    } else {
+      // User is not logged in, redirect to login
+      Navigator.pushNamed(context, '/login');
+    }
+  }
+
+  /// Scroll to the "Choose Your AI Companion" section
+  void _scrollToChooseSection() {
+    final context = _chooseSectionKey.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 1024;
 
+    if (isMobile) {
+      return _buildMobileHomeScreen(context);
+    }
+
+    return _buildDesktopHomeScreen(context);
+  }
+
+  Widget _buildMobileHomeScreen(BuildContext context) {
     return Scaffold(
       backgroundColor: WebTheme.darkBg,
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
             // Navbar
@@ -88,10 +137,46 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
               },
             ),
             // Hero Section
-            _buildHeroSection(context, isMobile),
+            _buildHeroSection(context, true),
+            const SizedBox(height: 32),
+            // Choose Your AI Companion Section
+            Container(
+              key: _chooseSectionKey,
+              child: _buildChooseSection(context, true),
+            ),
+            const SizedBox(height: 48),
+            // Footer
+            FooterWidget(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDesktopHomeScreen(BuildContext context) {
+    return Scaffold(
+      backgroundColor: WebTheme.darkBg,
+      body: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          children: [
+            // Navbar
+            NavbarWidget(
+              onLoginPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+              onHomePressed: () {
+                Navigator.pushNamed(context, '/');
+              },
+            ),
+            // Hero Section
+            _buildHeroSection(context, false),
             const SizedBox(height: 60),
             // Choose Your AI Companion Section
-            _buildChooseSection(context, isMobile),
+            Container(
+              key: _chooseSectionKey,
+              child: _buildChooseSection(context, false),
+            ),
             const SizedBox(height: 100),
             // How It Works Section
             HowItWorksSection(),
@@ -112,85 +197,132 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
 
   Widget _buildHeroSection(BuildContext context, bool isMobile) {
     return SizedBox(
-      height: 700,
+      height: isMobile ? 380 : 700,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 20 : 80,
-          vertical: 30,
+          horizontal: isMobile ? 12 : 80,
+          vertical: isMobile ? 20 : 30,
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Left side - Text and buttons
-            Expanded(
-              child: Column(
+        child: isMobile
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Main title
                   Text(
                     'AI Conversations\nThat Feel Alive',
                     style: GoogleFonts.poppins(
-                      fontSize: 56,
+                      fontSize: 32,
                       fontWeight: FontWeight.w700,
                       height: 1.2,
                       color: WebTheme.textPrimary,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   // Subtitle
                   Text(
                     'Talk to AI mentors, coaches, and friends\nwho understand you — anytime, anywhere.',
                     style: GoogleFonts.inter(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       height: 1.6,
                       color: WebTheme.textSecondary,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 12),
                   // Buttons
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       GlassButton(
                         text: 'Start Chatting',
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/chat');
-                        },
+                        onPressed: _handleStartChatting,
                         isPrimary: true,
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(height: 12),
                       GlassButton(
                         text: 'Explore Personas',
                         onPressed: () {
-                          Navigator.pushNamed(context, '/login');
+                          Navigator.pushNamed(context, '/personas');
                         },
                         isPrimary: false,
                       ),
                     ],
                   ),
                 ],
-              ),
-            ),
-            // Right side - Cards and chat
-            if (!isMobile)
-              Expanded(
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    // Floating chat bubbles
-                    ..._buildFloatingChatBubbles(),
-                    // Featured persona cards
-                    Positioned(
-                      right: 0,
-                      top: 120,
-                      child: _buildFeaturedCardsStack(),
+              )
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Left side - Text and buttons
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Main title
+                        Text(
+                          'AI Conversations\nThat Feel Alive',
+                          style: GoogleFonts.poppins(
+                            fontSize: 56,
+                            fontWeight: FontWeight.w700,
+                            height: 1.2,
+                            color: WebTheme.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        // Subtitle
+                        Text(
+                          'Talk to AI mentors, coaches, and friends\nwho understand you — anytime, anywhere.',
+                          style: GoogleFonts.inter(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            height: 1.6,
+                            color: WebTheme.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        // Buttons
+                        Row(
+                          children: [
+                            GlassButton(
+                              text: 'Start Chatting',
+                              onPressed: _handleStartChatting,
+                              isPrimary: true,
+                            ),
+                            const SizedBox(width: 16),
+                            GlassButton(
+                              text: 'Explore Personas',
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/personas');
+                              },
+                              isPrimary: false,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  // Right side - Cards and chat
+                  Expanded(
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Floating chat bubbles
+                        ..._buildFloatingChatBubbles(),
+                        // Featured persona cards
+                        Positioned(
+                          right: 0,
+                          top: 120,
+                          child: _buildFeaturedCardsStack(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-          ],
-        ),
       ),
     );
   }
@@ -343,7 +475,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
 
   Widget _buildChooseSection(BuildContext context, bool isMobile) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 20 : 80),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 80),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

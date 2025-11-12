@@ -90,6 +90,8 @@ class _GlassButtonState extends State<GlassButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
+
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
@@ -97,7 +99,9 @@ class _GlassButtonState extends State<GlassButton> {
         onTap: widget.onPressed,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          padding: widget.padding,
+          padding: isMobile
+              ? const EdgeInsets.symmetric(horizontal: 20, vertical: 12)
+              : widget.padding,
           decoration: BoxDecoration(
             gradient: widget.isPrimary
                 ? WebTheme.primaryGradient
@@ -129,9 +133,10 @@ class _GlassButtonState extends State<GlassButton> {
             style: GoogleFonts.poppins(
               color: WebTheme.textPrimary,
               fontWeight: FontWeight.w600,
-              fontSize: 15,
+              fontSize: isMobile ? 14 : 15,
               letterSpacing: 0.5,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),

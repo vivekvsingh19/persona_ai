@@ -29,8 +29,23 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>flutter_application_2</title>
+  <title>AI Personas</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Google Sign-In Meta Tag -->
+  <meta name="google-signin-client_id" content="1158986913917-lkvs95vn5o8cq8nkjh8jq6o7k6j5i4h3.apps.googleusercontent.com">
+
+  <!-- Firebase Web SDK -->
+  <script type="module">
+    import { auth, app, analytics } from './firebase-config.js';
+    
+    // Make auth and app globally available for Dart/Flutter to access
+    window.firebaseAuth = auth;
+    window.firebaseApp = app;
+    window.firebaseAnalytics = analytics;
+    
+    console.log('Firebase initialized successfully');
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>

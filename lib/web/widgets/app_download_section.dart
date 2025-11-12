@@ -12,8 +12,8 @@ class AppDownloadSection extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 20 : 80,
-        vertical: 80,
+        horizontal: isMobile ? 12 : 80,
+        vertical: isMobile ? 40 : 80,
       ),
       child: GlassContainer(
         borderRadius: 32,

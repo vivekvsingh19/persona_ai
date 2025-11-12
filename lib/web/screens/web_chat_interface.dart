@@ -70,6 +70,95 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 1024;
 
+    if (isMobile) {
+      return _buildMobileLayout();
+    }
+
+    return _buildDesktopLayout();
+  }
+
+  Widget _buildMobileLayout() {
+    return Scaffold(
+      backgroundColor: WebTheme.darkBg,
+      body: Column(
+        children: [
+          // Mobile header with persona info
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.white.withOpacity(0.1)),
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        WebTheme.primaryGradientStart.withOpacity(0.6),
+                        WebTheme.primaryGradientEnd.withOpacity(0.4),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Text('🎓', style: TextStyle(fontSize: 20)),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Professional Mentor',
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: WebTheme.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        'Online',
+                        style: GoogleFonts.inter(
+                          fontSize: 11,
+                          color: WebTheme.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(Icons.more_vert, color: WebTheme.textSecondary, size: 20),
+              ],
+            ),
+          ),
+          // Chat messages
+          Expanded(
+            child: ListView.builder(
+              controller: scrollController,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                final message = messages[index];
+                return _buildMessageBubble(
+                  text: message['text'],
+                  isUser: message['isUser'],
+                  timestamp: message['timestamp'],
+                );
+              },
+            ),
+          ),
+          // Input area
+          _buildMobileInputArea(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDesktopLayout() {
     return Scaffold(
       backgroundColor: WebTheme.darkBg,
       body: Column(
@@ -81,7 +170,7 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
           Expanded(
             child: Row(
               children: [
-                if (!isMobile) _buildSidebar(),
+                _buildSidebar(),
                 Expanded(child: _buildChatArea()),
               ],
             ),
@@ -507,6 +596,75 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
               ),
               child: const Center(
                 child: Icon(Icons.send, color: Colors.white, size: 20),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMobileInputArea() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: Colors.white.withOpacity(0.1))),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: GlassContainer(
+              borderRadius: 12,
+              backgroundColor: Colors.white.withOpacity(0.05),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.2),
+                width: 1,
+              ),
+              child: TextField(
+                controller: messageController,
+                onSubmitted: (_) => sendMessage(),
+                maxLines: 3,
+                minLines: 1,
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: WebTheme.textPrimary,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Message...',
+                  hintStyle: GoogleFonts.inter(
+                    fontSize: 13,
+                    color: WebTheme.textSecondary.withOpacity(0.6),
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          GestureDetector(
+            onTap: sendMessage,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    WebTheme.primaryGradientStart,
+                    WebTheme.primaryGradientEnd,
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: WebTheme.primaryGradientStart.withOpacity(0.4),
+                    blurRadius: 12,
+                  ),
+                ],
+              ),
+              child: const Center(
+                child: Icon(Icons.send, color: Colors.white, size: 18),
               ),
             ),
           ),
