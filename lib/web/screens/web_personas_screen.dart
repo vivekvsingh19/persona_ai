@@ -214,11 +214,7 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
                     width: 40,
                     height: 40,
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(
-                        Icons.person,
-                        color: Colors.white,
-                        size: 32,
-                      );
+                      return Icon(Icons.person, color: Colors.white, size: 32);
                     },
                   ),
                 ),
