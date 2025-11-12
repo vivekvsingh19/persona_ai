@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/web_theme.dart';
 import '../widgets/navbar_widget.dart';
-import '../widgets/glass_container.dart';
 import '../widgets/footer_widget.dart';
 
 class WebPersonasScreen extends StatefulWidget {
@@ -172,73 +171,271 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
     Map<String, dynamic> persona,
     bool isMobile,
   ) {
-    return GlassContainer(
-      borderRadius: 20,
-      blurSigma: 12,
-      padding: const EdgeInsets.all(32),
-      backgroundColor: Colors.white.withOpacity(0.05),
-      border: Border.all(
-        color: (persona['color'] as Color).withOpacity(0.3),
-        width: 1.5,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header with icon and title
-          Row(
+    return MouseRegion(
+      onEnter: (_) => setState(() {}),
+      onExit: (_) => setState(() {}),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/login');
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Stack(
             children: [
+              // Background with gradient - fully transparent
               Container(
-                width: 60,
-                height: 60,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+                  borderRadius: BorderRadius.circular(24),
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      (persona['color'] as Color).withOpacity(0.8),
-                      (persona['color'] as Color).withOpacity(0.4),
+                      (persona['color'] as Color).withOpacity(0.05),
+                      (persona['color'] as Color).withOpacity(0.01),
                     ],
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: (persona['color'] as Color).withOpacity(0.4),
-                      blurRadius: 20,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Image.asset(
-                    persona['imageAsset'] as String,
-                    width: 40,
-                    height: 40,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.person, color: Colors.white, size: 32);
-                    },
+                  border: Border.all(
+                    color: (persona['color'] as Color).withOpacity(0.15),
+                    width: 1.5,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
-              Expanded(
+              // Glass effect overlay
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.08),
+                    width: 1,
+                  ),
+                ),
+              ),
+              // Content
+              Padding(
+                padding: const EdgeInsets.all(32),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Hero Icon with Background
+                    Container(
+                      width: 90,
+                      height: 90,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            (persona['color'] as Color).withOpacity(0.9),
+                            (persona['color'] as Color).withOpacity(0.5),
+                          ],
+                        ),
+                      ),
+                      child: Center(
+                        child: Image.asset(
+                          persona['imageAsset'] as String,
+                          width: 60,
+                          height: 60,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.person_outline,
+                              color: Colors.white,
+                              size: 50,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Title and Category
                     Text(
                       persona['title'] as String,
                       style: GoogleFonts.poppins(
-                        fontSize: isMobile ? 18 : 22,
-                        fontWeight: FontWeight.w700,
+                        fontSize: isMobile ? 20 : 24,
+                        fontWeight: FontWeight.w800,
                         color: WebTheme.textPrimary,
+                        letterSpacing: -0.5,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Category Badge
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            (persona['color'] as Color).withOpacity(0.15),
+                            (persona['color'] as Color).withOpacity(0.08),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: (persona['color'] as Color).withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Text(
+                        persona['category'] as String,
+                        style: GoogleFonts.inter(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: persona['color'] as Color,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 16),
+
+                    // Description
                     Text(
-                      persona['category'] as String,
+                      persona['description'] as String,
                       style: GoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: (persona['color'] as Color),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 1.6,
+                        color: WebTheme.textSecondary,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Divider
+                    Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            (persona['color'] as Color).withOpacity(0.15),
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Features Section
+                    Text(
+                      'What You Get',
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: WebTheme.textPrimary,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Features List
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ...(persona['features'] as List<String>)
+                                .take(5)
+                                .map((feature) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Check icon
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      margin: const EdgeInsets.only(
+                                        top: 2,
+                                        right: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            (persona['color'] as Color)
+                                                .withOpacity(0.7),
+                                            (persona['color'] as Color)
+                                                .withOpacity(0.4),
+                                          ],
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.check_rounded,
+                                          color: Colors.white,
+                                          size: 12,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        feature,
+                                        style: GoogleFonts.inter(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.5,
+                                          color: WebTheme.textSecondary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // CTA Button - No Shadow
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              (persona['color'] as Color),
+                              (persona['color'] as Color).withOpacity(0.8),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Start Chatting',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(
+                              Icons.arrow_forward_rounded,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -246,111 +443,7 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 20),
-
-          // Description
-          Text(
-            persona['description'] as String,
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              height: 1.5,
-              color: WebTheme.textSecondary,
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Features list
-          Text(
-            'Key Features',
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: WebTheme.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 12),
-
-          // Features
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ...(persona['features'] as List<String>).map((feature) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 6,
-                            height: 6,
-                            margin: const EdgeInsets.only(top: 6, right: 12),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: persona['color'] as Color,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              feature,
-                              style: GoogleFonts.inter(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                height: 1.5,
-                                color: WebTheme.textSecondary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // CTA Button
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/login');
-            },
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    (persona['color'] as Color).withOpacity(0.8),
-                    (persona['color'] as Color).withOpacity(0.6),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: (persona['color'] as Color).withOpacity(0.4),
-                    blurRadius: 15,
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: Text(
-                'Chat with ${persona['title']}',
-                style: GoogleFonts.poppins(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
