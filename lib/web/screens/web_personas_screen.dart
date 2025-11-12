@@ -179,9 +179,7 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
           Navigator.pushNamed(context, '/login');
         },
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(24)),
           child: Stack(
             children: [
               // Background with gradient - fully transparent
@@ -344,53 +342,55 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
                             ...(persona['features'] as List<String>)
                                 .take(5)
                                 .map((feature) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 12),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // Check icon
-                                    Container(
-                                      width: 20,
-                                      height: 20,
-                                      margin: const EdgeInsets.only(
-                                        top: 2,
-                                        right: 10,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            (persona['color'] as Color)
-                                                .withOpacity(0.7),
-                                            (persona['color'] as Color)
-                                                .withOpacity(0.4),
-                                          ],
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // Check icon
+                                        Container(
+                                          width: 20,
+                                          height: 20,
+                                          margin: const EdgeInsets.only(
+                                            top: 2,
+                                            right: 10,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                (persona['color'] as Color)
+                                                    .withOpacity(0.7),
+                                                (persona['color'] as Color)
+                                                    .withOpacity(0.4),
+                                              ],
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.check_rounded,
+                                              color: Colors.white,
+                                              size: 12,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.check_rounded,
-                                          color: Colors.white,
-                                          size: 12,
+                                        Expanded(
+                                          child: Text(
+                                            feature,
+                                            style: GoogleFonts.inter(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.5,
+                                              color: WebTheme.textSecondary,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    Expanded(
-                                      child: Text(
-                                        feature,
-                                        style: GoogleFonts.inter(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                          height: 1.5,
-                                          color: WebTheme.textSecondary,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
+                                  );
+                                })
+                                .toList(),
                           ],
                         ),
                       ),
