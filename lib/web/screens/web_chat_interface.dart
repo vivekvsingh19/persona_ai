@@ -92,9 +92,7 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
       return Container(
         width: 40,
         height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.asset(
@@ -125,9 +123,7 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
         ),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: const Center(
-        child: Text('🎓', style: TextStyle(fontSize: 20)),
-      ),
+      child: const Center(child: Text('🎓', style: TextStyle(fontSize: 20))),
     );
   }
 

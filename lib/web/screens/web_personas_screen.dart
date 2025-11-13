@@ -271,7 +271,8 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(
-                                  color: (persona['color'] as Color).withOpacity(0.5),
+                                  color: (persona['color'] as Color)
+                                      .withOpacity(0.5),
                                   child: Icon(
                                     Icons.person_outline,
                                     color: Colors.white,
@@ -310,13 +311,18 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      (persona['color'] as Color).withOpacity(0.15),
-                                      (persona['color'] as Color).withOpacity(0.08),
+                                      (persona['color'] as Color).withOpacity(
+                                        0.15,
+                                      ),
+                                      (persona['color'] as Color).withOpacity(
+                                        0.08,
+                                      ),
                                     ],
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                    color: (persona['color'] as Color).withOpacity(0.3),
+                                    color: (persona['color'] as Color)
+                                        .withOpacity(0.3),
                                     width: 1,
                                   ),
                                 ),
@@ -389,7 +395,9 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
                                   .take(5)
                                   .map((feature) {
                                     return Padding(
-                                      padding: const EdgeInsets.only(bottom: 12),
+                                      padding: const EdgeInsets.only(
+                                        bottom: 12,
+                                      ),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -446,60 +454,58 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ...(persona['features'] as List<String>)
-                              .take(4)
-                              .map((feature) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // Check icon
-                                      Container(
-                                        width: 16,
-                                        height: 16,
-                                        margin: const EdgeInsets.only(
-                                          top: 2,
-                                          right: 8,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              (persona['color'] as Color)
-                                                  .withOpacity(0.7),
-                                              (persona['color'] as Color)
-                                                  .withOpacity(0.4),
-                                            ],
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.check_rounded,
-                                            color: Colors.white,
-                                            size: 10,
-                                          ),
-                                        ),
+                          ...(persona['features'] as List<String>).take(4).map((
+                            feature,
+                          ) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Check icon
+                                  Container(
+                                    width: 16,
+                                    height: 16,
+                                    margin: const EdgeInsets.only(
+                                      top: 2,
+                                      right: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          (persona['color'] as Color)
+                                              .withOpacity(0.7),
+                                          (persona['color'] as Color)
+                                              .withOpacity(0.4),
+                                        ],
                                       ),
-                                      Expanded(
-                                        child: Text(
-                                          feature,
-                                          style: GoogleFonts.inter(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.4,
-                                            color: WebTheme.textSecondary,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.check_rounded,
+                                        color: Colors.white,
+                                        size: 10,
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                );
-                              })
-                              .toList(),
+                                  Expanded(
+                                    child: Text(
+                                      feature,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.4,
+                                        color: WebTheme.textSecondary,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
                         ],
                       ),
                     const SizedBox(height: 24),
