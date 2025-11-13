@@ -380,7 +380,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: const Color(0xFFEC4899), width: 1.5),
+                border: Border.all(color: const Color(0xFF06B6D4), width: 1.5),
               ),
               child: PersonaCard(
                 title: featuredPersonas[2]['title']!,
@@ -399,7 +399,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: const Color(0xFF06B6D4), width: 1.5),
+                border: Border.all(color: const Color(0xFFEC4899), width: 1.5),
               ),
               child: PersonaCard(
                 title: featuredPersonas[1]['title']!,
