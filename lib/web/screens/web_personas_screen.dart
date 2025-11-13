@@ -14,9 +14,9 @@ class WebPersonasScreen extends StatefulWidget {
 class _WebPersonasScreenState extends State<WebPersonasScreen> {
   final List<Map<String, dynamic>> personas = [
     {
-      'title': 'Professional Mentor',
+      'title': 'Mentor Max',
       'category': 'Career',
-      'description': 'Your dedicated career guide and professional coach',
+      'description': 'Career guidance, interviews & professional growth',
       'features': [
         'Career guidance and resume optimization',
         'Interview preparation strategies',
@@ -26,12 +26,12 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
         'Work-life balance counseling',
       ],
       'imageAsset': 'assets/images/mentor.png',
-      'color': const Color(0xFF6C5BFF),
+      'color': const Color(0xFF1E3A8A),
     },
     {
-      'title': 'Lovely Crush',
-      'category': 'Relationships',
-      'description': 'Empathetic companion for meaningful conversations',
+      'title': 'Lovely Crush Kiara',
+      'category': 'Romance',
+      'description': 'Romantic chats and emotional bonding',
       'features': [
         'Romantic and thoughtful advice',
         'Relationship communication tips',
@@ -41,37 +41,67 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
         'Confidence building support',
       ],
       'imageAsset': 'assets/images/crush.png',
-      'color': const Color(0xFFFF5AA2),
+      'color': const Color(0xFFEC4899),
     },
     {
-      'title': 'Life Coach',
-      'category': 'Personal Development',
-      'description': 'Motivational guide for achieving your goals',
+      'title': 'Calm Friend Mira',
+      'category': 'Companion',
+      'description': 'A gentle and comforting friend to talk to openly',
       'features': [
-        'Goal setting and planning',
-        'Motivation and inspiration',
-        'Mindfulness and meditation guidance',
-        'Personal values clarification',
-        'Habit formation strategies',
-        'Accountability and tracking',
+        'Empathetic listening',
+        'Emotional support and understanding',
+        'Comfortable conversations',
+        'Friendly advice and guidance',
+        'Stress relief and comfort',
+        'Personal sharing space',
       ],
-      'imageAsset': 'assets/images/coach.png',
-      'color': const Color(0xFF00D4FF),
+      'imageAsset': 'assets/images/friend.png',
+      'color': const Color(0xFF6366F1),
     },
     {
-      'title': 'Wellness Guide',
+      'title': 'Startup Coach Blaze',
+      'category': 'Business',
+      'description': 'Sharp guidance for business, startups & strategy',
+      'features': [
+        'Business strategy and planning',
+        'Startup mentorship and guidance',
+        'Market analysis and insights',
+        'Growth hacking strategies',
+        'Entrepreneurship advice',
+        'Investment and funding guidance',
+      ],
+      'imageAsset': 'assets/images/startup.png',
+      'color': const Color(0xFF0EA5E9),
+    },
+    {
+      'title': 'Study Buddy Neo',
+      'category': 'Education',
+      'description': 'Learning assistance, notes & exam help',
+      'features': [
+        'Study material organization',
+        'Exam preparation strategies',
+        'Learning techniques and tips',
+        'Subject explanations',
+        'Homework and assignment help',
+        'Exam anxiety management',
+      ],
+      'imageAsset': 'assets/images/study.png',
+      'color': const Color(0xFFF59E0B),
+    },
+    {
+      'title': 'Zen Wellness Guide',
       'category': 'Health',
-      'description': 'Your health and fitness companion',
+      'description': 'Health, fitness & mindfulness guidance',
       'features': [
         'Fitness routine recommendations',
         'Nutrition and diet guidance',
         'Mental health support',
-        'Exercise motivation',
-        'Sleep improvement tips',
+        'Meditation and mindfulness guidance',
         'Wellness tracking advice',
+        'Holistic health approach',
       ],
-      'imageAsset': 'assets/images/gym.png',
-      'color': const Color(0xFF00D97E),
+      'imageAsset': 'assets/images/coach.png',
+      'color': const Color(0xFF059669),
     },
   ];
 
@@ -143,17 +173,17 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
 
   Widget _buildPersonasGrid(BuildContext context, bool isMobile) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 80),
       child: Column(
         children: [
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: isMobile ? 1 : 2,
-              childAspectRatio: isMobile ? 1.0 : 1.1,
-              crossAxisSpacing: 30,
-              mainAxisSpacing: 30,
+              crossAxisCount: isMobile ? 1 : 3,
+              childAspectRatio: isMobile ? 0.9 : 0.9,
+              crossAxisSpacing: isMobile ? 12 : 30,
+              mainAxisSpacing: isMobile ? 12 : 30,
             ),
             itemCount: personas.length,
             itemBuilder: (context, index) {
@@ -212,86 +242,100 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
               ),
               // Content
               Padding(
-                padding: const EdgeInsets.all(32),
+                padding: EdgeInsets.all(isMobile ? 16 : 32),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Hero Icon with Background
-                    Container(
-                      width: 90,
-                      height: 90,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            (persona['color'] as Color).withOpacity(0.9),
-                            (persona['color'] as Color).withOpacity(0.5),
-                          ],
+                    // Avatar and Title Row
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Hero Icon with Background - Circular with image
+                        Container(
+                          width: isMobile ? 70 : 90,
+                          height: isMobile ? 70 : 90,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                (persona['color'] as Color).withOpacity(0.9),
+                                (persona['color'] as Color).withOpacity(0.5),
+                              ],
+                            ),
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              persona['imageAsset'] as String,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  color: (persona['color'] as Color).withOpacity(0.5),
+                                  child: Icon(
+                                    Icons.person_outline,
+                                    color: Colors.white,
+                                    size: isMobile ? 35 : 50,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          persona['imageAsset'] as String,
-                          width: 60,
-                          height: 60,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Icon(
-                              Icons.person_outline,
-                              color: Colors.white,
-                              size: 50,
-                            );
-                          },
+                        const SizedBox(width: 16),
+                        // Title and Category beside avatar
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Title
+                              Text(
+                                persona['title'] as String,
+                                style: GoogleFonts.poppins(
+                                  fontSize: isMobile ? 18 : 22,
+                                  fontWeight: FontWeight.w800,
+                                  color: WebTheme.textPrimary,
+                                  letterSpacing: -0.5,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 8),
+                              // Category Badge
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      (persona['color'] as Color).withOpacity(0.15),
+                                      (persona['color'] as Color).withOpacity(0.08),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: (persona['color'] as Color).withOpacity(0.3),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Text(
+                                  persona['category'] as String,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: persona['color'] as Color,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     const SizedBox(height: 24),
-
-                    // Title and Category
-                    Text(
-                      persona['title'] as String,
-                      style: GoogleFonts.poppins(
-                        fontSize: isMobile ? 20 : 24,
-                        fontWeight: FontWeight.w800,
-                        color: WebTheme.textPrimary,
-                        letterSpacing: -0.5,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-
-                    // Category Badge
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            (persona['color'] as Color).withOpacity(0.15),
-                            (persona['color'] as Color).withOpacity(0.08),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: (persona['color'] as Color).withOpacity(0.3),
-                          width: 1,
-                        ),
-                      ),
-                      child: Text(
-                        persona['category'] as String,
-                        style: GoogleFonts.inter(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: persona['color'] as Color,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
 
                     // Description
                     Text(
@@ -321,7 +365,7 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
                     ),
                     const SizedBox(height: 24),
 
-                    // Features Section
+                    // Features Section - Responsive (Compact for web, scrollable for mobile)
                     Text(
                       'What You Get',
                       style: GoogleFonts.poppins(
@@ -333,68 +377,131 @@ class _WebPersonasScreenState extends State<WebPersonasScreen> {
                     ),
                     const SizedBox(height: 14),
 
-                    // Features List
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ...(persona['features'] as List<String>)
-                                .take(5)
-                                .map((feature) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 12),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // Check icon
-                                        Container(
-                                          width: 20,
-                                          height: 20,
-                                          margin: const EdgeInsets.only(
-                                            top: 2,
-                                            right: 10,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                (persona['color'] as Color)
-                                                    .withOpacity(0.7),
-                                                (persona['color'] as Color)
-                                                    .withOpacity(0.4),
-                                              ],
+                    // Features List - Different layout for web and mobile
+                    if (isMobile)
+                      // Mobile: Scrollable list
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ...(persona['features'] as List<String>)
+                                  .take(5)
+                                  .map((feature) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(bottom: 12),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Check icon
+                                          Container(
+                                            width: 20,
+                                            height: 20,
+                                            margin: const EdgeInsets.only(
+                                              top: 2,
+                                              right: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  (persona['color'] as Color)
+                                                      .withOpacity(0.7),
+                                                  (persona['color'] as Color)
+                                                      .withOpacity(0.4),
+                                                ],
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.check_rounded,
+                                                color: Colors.white,
+                                                size: 12,
+                                              ),
                                             ),
                                           ),
-                                          child: Center(
-                                            child: Icon(
-                                              Icons.check_rounded,
-                                              color: Colors.white,
-                                              size: 12,
+                                          Expanded(
+                                            child: Text(
+                                              feature,
+                                              style: GoogleFonts.inter(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                height: 1.5,
+                                                color: WebTheme.textSecondary,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            feature,
-                                            style: GoogleFonts.inter(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400,
-                                              height: 1.5,
-                                              color: WebTheme.textSecondary,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                })
-                                .toList(),
-                          ],
+                                        ],
+                                      ),
+                                    );
+                                  })
+                                  .toList(),
+                            ],
+                          ),
                         ),
+                      )
+                    else
+                      // Web: Compact grid (2 columns, no scrolling)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ...(persona['features'] as List<String>)
+                              .take(4)
+                              .map((feature) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Check icon
+                                      Container(
+                                        width: 16,
+                                        height: 16,
+                                        margin: const EdgeInsets.only(
+                                          top: 2,
+                                          right: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              (persona['color'] as Color)
+                                                  .withOpacity(0.7),
+                                              (persona['color'] as Color)
+                                                  .withOpacity(0.4),
+                                            ],
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.check_rounded,
+                                            color: Colors.white,
+                                            size: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          feature,
+                                          style: GoogleFonts.inter(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.4,
+                                            color: WebTheme.textSecondary,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              })
+                              .toList(),
+                        ],
                       ),
-                    ),
                     const SizedBox(height: 24),
 
                     // CTA Button - No Shadow

@@ -39,46 +39,51 @@ class Persona {
 
   static final List<Persona> defaultPersonas = [
     Persona(
-      name: 'Professional Mentor',
-      description: 'Career guidance and professional development',
+      name: 'Mentor Max',
+      description: 'Career guidance, interviews & professional growth',
       image: 'assets/images/mentor.png',
       category: 'Career',
       gradient: [Color(0xFF1E3A8A), Color(0xFF3B82F6)],
     ),
+
     Persona(
-      name: 'Life Coach',
-      description: 'Personal growth and motivation',
-      image: 'assets/images/coach.png',
-      category: 'Personal',
-      gradient: [Color(0xFF7C3AED), Color(0xFFA78BFA)],
-    ),
-    Persona(
-      name: 'lovely crush',
-      description: 'Romantic conversations and advice',
+      name: 'Lovely Crush Kiara',
+      description: 'Romantic chats and emotional bonding',
       image: 'assets/images/crush.png',
-      category: 'Creative',
+      category: 'Romance',
       gradient: [Color(0xFFEC4899), Color(0xFFF472B6)],
     ),
+
     Persona(
-      name: 'Wellness Guide',
-      description: 'Health, fitness, and mindfulness',
-      image: 'assets/images/gym.png',
+      name: 'Calm Friend Mira',
+      description: 'A gentle and comforting friend to talk to openly',
+      image: 'assets/images/friend.png',
+      category: 'Companion',
+      gradient: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+    ),
+
+    Persona(
+      name: 'Startup Coach Blaze',
+      description: 'Sharp guidance for business, startups & strategy',
+      image: 'assets/images/startup.png',
+      category: 'Business',
+      gradient: [Color(0xFF0EA5E9), Color(0xFF38BDF8)],
+    ),
+
+    Persona(
+      name: 'Study Buddy Neo',
+      description: 'Learning assistance, notes & exam help',
+      image: 'assets/images/study.png',
+      category: 'Education',
+      gradient: [Color(0xFFF59E0B), Color(0xFFFBBF24)],
+    ),
+
+    Persona(
+      name: 'Zen Wellness Guide',
+      description: 'Health, fitness & mindfulness guidance',
+      image: 'assets/images/coach.png',
       category: 'Health',
       gradient: [Color(0xFF059669), Color(0xFF10B981)],
     ),
-    // Persona(
-    //   name: 'Study Buddy',
-    //   description: 'Academic support and learning assistance',
-    //   image: 'https://images.unsplash.com/photo-1629425733761-caae3b5f2e50',
-    //   category: 'Education',
-    //   gradient: [Color(0xFFF59E0B), Color(0xFFFBBF24)],
-    // ),
-    // Persona(
-    //   name: 'Tech Advisor',
-    //   description: 'Technology and digital solutions',
-    //   image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2',
-    //   category: 'Technology',
-    //   gradient: [Color(0xFF06B6D4), Color(0xFF22D3EE)],
-    // ),
   ];
 }

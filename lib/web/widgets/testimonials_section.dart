@@ -16,7 +16,8 @@ class TestimonialsSection extends StatelessWidget {
         'role': 'Career Professional',
         'text':
             'The AI mentor helped me navigate my career transition. Highly personalized advice!',
-        'avatar': '👩‍💼',
+        'imageUrl':
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
         'rating': 5,
       },
       {
@@ -24,15 +25,17 @@ class TestimonialsSection extends StatelessWidget {
         'role': 'Fitness Enthusiast',
         'text':
             'Best wellness guide ever. Available 24/7 and truly understands my health goals.',
-        'avatar': '💪',
+        'imageUrl':
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop',
         'rating': 5,
       },
       {
         'name': 'Emma Davis',
         'role': 'Student',
         'text':
-            'Life coaching from an AI was skeptical at first, but it\'s genuinely helpful.',
-        'avatar': '📚',
+            'I was skeptical at first, but this AI coaching is genuinely helpful.',
+        'imageUrl':
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop',
         'rating': 5,
       },
     ];
@@ -55,6 +58,7 @@ class TestimonialsSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
+
           // Subtitle
           Text(
             'Join thousands of happy users worldwide',
@@ -65,25 +69,26 @@ class TestimonialsSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 60),
-          // Testimonials grid
+
+          // Testimonials Grid
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: isMobile ? 1 : 3,
-              childAspectRatio: isMobile ? 1.1 : 1,
+              childAspectRatio: isMobile ? 1.1 : 1.2,
               crossAxisSpacing: 24,
               mainAxisSpacing: 24,
             ),
             itemCount: testimonials.length,
             itemBuilder: (context, index) {
-              final testimonial = testimonials[index];
+              final t = testimonials[index];
               return _buildTestimonialCard(
-                name: testimonial['name'] as String,
-                role: testimonial['role'] as String,
-                text: testimonial['text'] as String,
-                avatar: testimonial['avatar'] as String,
-                rating: testimonial['rating'] as int,
+                name: t['name'] as String,
+                role: t['role'] as String,
+                text: t['text'] as String,
+                imageUrl: t['imageUrl'] as String,
+                rating: t['rating'] as int,
               );
             },
           ),
@@ -92,11 +97,12 @@ class TestimonialsSection extends StatelessWidget {
     );
   }
 
+  // ⭐ TESTIMONIAL CARD (Full-width Image + Overlay Text)
   Widget _buildTestimonialCard({
     required String name,
     required String role,
     required String text,
-    required String avatar,
+    required String imageUrl,
     required int rating,
   }) {
     return GlassContainer(
@@ -104,81 +110,117 @@ class TestimonialsSection extends StatelessWidget {
       blurSigma: 12,
       backgroundColor: Colors.white.withOpacity(0.05),
       border: Border.all(color: Colors.white.withOpacity(0.15), width: 1.5),
-      padding: const EdgeInsets.all(28),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.zero,
+      child: Stack(
         children: [
-          // Stars
-          Row(
-            children: List.generate(
-              rating,
-              (index) => Padding(
-                padding: const EdgeInsets.only(right: 4),
-                child: Text('⭐', style: GoogleFonts.poppins(fontSize: 14)),
-              ),
+          // Full-width Image
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: WebTheme.primaryGradientStart.withOpacity(0.2),
             ),
-          ),
-          const SizedBox(height: 16),
-          // Testimonial text
-          Text(
-            '"$text"',
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: WebTheme.textSecondary,
-              height: 1.6,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-          const Spacer(),
-          // User info
-          Row(
-            children: [
-              // Avatar
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      WebTheme.primaryGradientStart.withOpacity(0.6),
-                      WebTheme.primaryGradientEnd.withOpacity(0.4),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Text(avatar, style: const TextStyle(fontSize: 24)),
-                ),
-              ),
-              const SizedBox(width: 12),
-              // Name and role
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: WebTheme.textPrimary,
-                      ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  print('Image load error for $imageUrl: $error');
+                  return Center(
+                    child: Icon(
+                      Icons.image_not_supported,
+                      size: 50,
+                      color: WebTheme.primaryGradientStart,
                     ),
-                    Text(
-                      role,
+                  );
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                          : null,
+                      strokeWidth: 2,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+
+          // Translucent Container with Text (Bottom - Fixed Size)
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 130,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                color: Colors.black.withOpacity(0.55),
+              ),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  // Name
+                  Text(
+                    name,
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: WebTheme.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+
+                  // Role
+                  Text(
+                    role,
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      color: WebTheme.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // ⭐ Star Rating
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: List.generate(
+                      rating,
+                      (index) =>
+                          const Icon(Icons.star, color: Colors.amber, size: 16),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Review Text
+                  Expanded(
+                    child: Text(
+                      '"$text"',
+                      textAlign: TextAlign.left,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.inter(
                         fontSize: 12,
-                        fontWeight: FontWeight.w400,
+                        height: 1.4,
                         color: WebTheme.textSecondary,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),

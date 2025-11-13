@@ -257,34 +257,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            const Color(0xFFB38CFF).withOpacity(0.2),
-            const Color(0xFF7DE2FF).withOpacity(0.2),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: const Color(0xFFB38CFF).withOpacity(0.5),
-          width: 2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFB38CFF).withOpacity(0.15),
-            blurRadius: 12,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.star, color: Color(0xFFB38CFF), size: 28),
+              const Icon(Icons.star, color: Colors.yellow, size: 28),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

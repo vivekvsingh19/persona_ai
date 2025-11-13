@@ -42,39 +42,55 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
       'imageAsset': 'assets/images/mentor.png',
     },
     {
-      'title': 'Life Coach',
-      'description': 'Motivation, mindfulness.\nand clarity',
-      'category': 'Health',
-      'imageAsset': 'assets/images/coach.png',
+      'title': 'Mira - Calm Friend',
+      'description': 'gentle and\ncomforting friend',
+      'category': 'companion',
+      'imageAsset': 'assets/images/friend.png',
     },
     {
-      'title': 'Wellness Guide',
-      'description': 'Health, fitness\nand wellness tips',
-      'category': 'Health',
-      'imageAsset': 'assets/images/gym.png',
+      'title': 'Blaze - Startup Coach',
+      'description': 'Business, startups\nand strategy',
+      'category': 'Business',
+      'imageAsset': 'assets/images/startup.png',
     },
   ];
 
   final List<Map<String, String>> allPersonas = [
     {
-      'title': 'Professional Mentor',
-      'description': 'Career guidance and self growth',
+      'title': 'Mentor Max',
+      'description': 'Career guidance and skill growth',
       'imageAsset': 'assets/images/mentor.png',
+      'category': 'Career',
     },
     {
-      'title': 'Lovely Crush',
+      'title': 'Lovely Crush Kiara',
       'description': 'Romantic, empathetic, and fun-chats',
       'imageAsset': 'assets/images/crush.png',
+      'category': 'Romance',
     },
     {
-      'title': 'Life Coach',
-      'description': 'Motivation, mindfulness and clarity',
+      'title': 'Calm Friend Mira',
+      'description': 'A gentle and comforting friend',
+      'imageAsset': 'assets/images/friend.png',
+      'category': 'Companion',
+    },
+    {
+      'title': 'Startup Coach Blaze',
+      'description': 'Business, startups & strategy',
+      'imageAsset': 'assets/images/startup.png',
+      'category': 'Business',
+    },
+    {
+      'title': 'Study Buddy Neo',
+      'description': 'Learning assistance & exam help',
+      'imageAsset': 'assets/images/study.png',
+      'category': 'Education',
+    },
+    {
+      'title': 'Zen Wellness Guide',
+      'description': 'Health, fitness & mindfulness',
       'imageAsset': 'assets/images/coach.png',
-    },
-    {
-      'title': 'Wellness Guide',
-      'description': 'Health, fitness and wellness tips',
-      'imageAsset': 'assets/images/gym.png',
+      'category': 'Health',
     },
   ];
 
@@ -145,6 +161,9 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
               child: _buildChooseSection(context, true),
             ),
             const SizedBox(height: 48),
+            // How It Works Section
+            HowItWorksSection(),
+            const SizedBox(height: 48),
             // Footer
             FooterWidget(),
           ],
@@ -177,7 +196,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
               key: _chooseSectionKey,
               child: _buildChooseSection(context, false),
             ),
-            const SizedBox(height: 100),
+            const SizedBox(height: 10),
             // How It Works Section
             HowItWorksSection(),
             const SizedBox(height: 100),
@@ -338,39 +357,58 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
           Positioned(
             left: 0,
             top: 40,
-            child: PersonaCard(
-              title: featuredPersonas[0]['title']!,
-              description: featuredPersonas[0]['description']!,
-              category: featuredPersonas[0]['category'],
-              imageAsset: featuredPersonas[0]['imageAsset'],
-              width: 260,
-              height: 360,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: const Color(0xFF6366F1), width: 1.5),
+              ),
+              child: PersonaCard(
+                title: featuredPersonas[0]['title']!,
+                description: featuredPersonas[0]['description']!,
+                category: featuredPersonas[0]['category'],
+                categoryAlignment: Alignment.topLeft,
+                imageAsset: featuredPersonas[0]['imageAsset'],
+                width: 260,
+                height: 360,
+              ),
             ),
           ),
           // Right card - Behind
           Positioned(
             right: 0,
             top: 40,
-            child: PersonaCard(
-              title: featuredPersonas[2]['title']!,
-              description: featuredPersonas[2]['description']!,
-              category: featuredPersonas[2]['category'],
-              imageAsset: featuredPersonas[2]['imageAsset'],
-              width: 260,
-              height: 360,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: const Color(0xFFEC4899), width: 1.5),
+              ),
+              child: PersonaCard(
+                title: featuredPersonas[2]['title']!,
+                description: featuredPersonas[2]['description']!,
+                category: featuredPersonas[2]['category'],
+                imageAsset: featuredPersonas[2]['imageAsset'],
+                width: 260,
+                height: 360,
+              ),
             ),
           ),
           // Center card - Front (On top of both side cards)
           Positioned(
             left: 120,
             top: 0,
-            child: PersonaCard(
-              title: featuredPersonas[1]['title']!,
-              description: featuredPersonas[1]['description']!,
-              category: featuredPersonas[1]['category'],
-              imageAsset: featuredPersonas[1]['imageAsset'],
-              width: 300,
-              height: 420,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: const Color(0xFF06B6D4), width: 1.5),
+              ),
+              child: PersonaCard(
+                title: featuredPersonas[1]['title']!,
+                description: featuredPersonas[1]['description']!,
+                category: featuredPersonas[1]['category'],
+                imageAsset: featuredPersonas[1]['imageAsset'],
+                width: 300,
+                height: 420,
+              ),
             ),
           ),
         ],
@@ -500,28 +538,68 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
             ),
           ),
           const SizedBox(height: 48),
-          // 4 column grid
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: isMobile ? 2 : 4,
-              childAspectRatio: isMobile ? 0.75 : 0.8,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
+
+          if (!isMobile)
+            SizedBox(
+              height: 520,
+              width: double.infinity,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemCount: allPersonas.length,
+
+                // spacing between items
+                separatorBuilder: (_, __) => const SizedBox(width: 20),
+
+                itemBuilder: (context, index) {
+                  final persona = allPersonas[index];
+
+                  // Width to show exactly 4 cards on screen
+                  final screenWidth = MediaQuery.of(context).size.width;
+                  final cardWidth = screenWidth / 4 - 20;
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20, // ⬅️ This fixes the top image cutoff
+                    ),
+                    child: SizedBox(
+                      width: cardWidth,
+                      child: PersonaCard(
+                        title: persona['title']!,
+                        description: persona['description']!,
+                        imageAsset: persona['imageAsset'],
+                        category: persona['category'],
+                        width: 210,
+                        height: 320,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
+          else
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.75,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
+              itemCount: allPersonas.length,
+              itemBuilder: (context, index) {
+                final persona = allPersonas[index];
+                return PersonaCard(
+                  title: persona['title']!,
+                  description: persona['description']!,
+                  imageAsset: persona['imageAsset'],
+                  category: persona['category'],
+                  width: 140,
+                  height: 280,
+                );
+              },
             ),
-            itemCount: allPersonas.length,
-            itemBuilder: (context, index) {
-              final persona = allPersonas[index];
-              return PersonaCard(
-                title: persona['title']!,
-                description: persona['description']!,
-                imageAsset: persona['imageAsset'],
-                width: isMobile ? 140 : 200,
-                height: isMobile ? 280 : 320,
-              );
-            },
-          ),
         ],
       ),
     );

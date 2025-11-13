@@ -5,7 +5,9 @@ import '../widgets/glass_container.dart';
 import '../widgets/navbar_widget.dart';
 
 class WebChatInterface extends StatefulWidget {
-  const WebChatInterface({Key? key}) : super(key: key);
+  final Map<String, dynamic>? persona;
+
+  const WebChatInterface({Key? key, this.persona}) : super(key: key);
 
   @override
   State<WebChatInterface> createState() => _WebChatInterfaceState();
@@ -66,6 +68,69 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
     });
   }
 
+  Widget _buildPersonaAvatar() {
+    final String? imageUrl = widget.persona?['imageUrl'] as String?;
+    final String? imagePath = widget.persona?['image'] as String?;
+
+    // If persona has a network image URL, display it
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      return Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+            image: NetworkImage(imageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    }
+
+    // If persona has an asset image, display it
+    if (imagePath != null && imagePath.isNotEmpty) {
+      return Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return _buildFallbackAvatar();
+            },
+          ),
+        ),
+      );
+    }
+
+    // Fallback avatar
+    return _buildFallbackAvatar();
+  }
+
+  Widget _buildFallbackAvatar() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            WebTheme.primaryGradientStart.withOpacity(0.6),
+            WebTheme.primaryGradientEnd.withOpacity(0.4),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: const Center(
+        child: Text('🎓', style: TextStyle(fontSize: 20)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 1024;
@@ -92,29 +157,14 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
             ),
             child: Row(
               children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        WebTheme.primaryGradientStart.withOpacity(0.6),
-                        WebTheme.primaryGradientEnd.withOpacity(0.4),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Text('🎓', style: TextStyle(fontSize: 20)),
-                  ),
-                ),
+                _buildPersonaAvatar(),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Professional Mentor',
+                        widget.persona?['name'] ?? 'AI Companion',
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -335,29 +385,14 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
           ),
           child: Row(
             children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      WebTheme.primaryGradientStart.withOpacity(0.6),
-                      WebTheme.primaryGradientEnd.withOpacity(0.4),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Text('🎓', style: TextStyle(fontSize: 20)),
-                ),
-              ),
+              _buildPersonaAvatar(),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Professional Mentor',
+                      widget.persona?['name'] ?? 'AI Companion',
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -365,7 +400,7 @@ class _WebChatInterfaceState extends State<WebChatInterface> {
                       ),
                     ),
                     Text(
-                      'Online • Career guidance',
+                      'Online • ${widget.persona?['description'] ?? 'AI Assistant'}',
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         color: WebTheme.textSecondary,

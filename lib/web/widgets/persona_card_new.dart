@@ -12,6 +12,7 @@ class PersonaCard extends StatefulWidget {
   final bool isFeatured;
   final double width;
   final double height;
+  final Alignment categoryAlignment;
 
   const PersonaCard({
     Key? key,
@@ -24,6 +25,7 @@ class PersonaCard extends StatefulWidget {
     this.isFeatured = false,
     this.width = 280,
     this.height = 400,
+    this.categoryAlignment = Alignment.topRight,
   }) : super(key: key);
 
   @override
@@ -131,7 +133,7 @@ class _PersonaCardState extends State<PersonaCard> {
                         // Top category badge
                         if (widget.category != null)
                           Align(
-                            alignment: Alignment.topRight,
+                            alignment: widget.categoryAlignment,
                             child: GlassContainer(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 12,

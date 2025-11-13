@@ -19,30 +19,38 @@ class _ChatScreenState extends State<ChatScreen> {
   // Background image options
   int _selectedBackground = 0;
   final List<String> _backgroundImages = [
-    // Tech & AI themes
-    'https://images.unsplash.com/photo-1557821552-17105176677c?w=1000&h=2000&fit=crop', // AI/Tech blue
+    // Career & Professional themes (Mentor Max)
+    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1000&h=2000&fit=crop', // Team collaboration
 
-    'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1000&h=2000&fit=crop', // Purple tech
-    // Love & Romance themes
-    'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=1000&h=2000&fit=crop', // Romantic heart
-    'https://images.unsplash.com/photo-1516962712202-907c88ed4d4b?w=1000&h=2000&fit=crop', // Love couple
-    // Study & Education themes
-    'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1000&h=2000&fit=crop', // Books & learning
-    'https://images.unsplash.com/photo-1507842758343-583f20270319?w=1000&h=2000&fit=crop', // Study desk
-    // Gym & Fitness themes
-    'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1000&h=2000&fit=crop', // Gym workout
-    'https://images.unsplash.com/photo-1517836357463-d25ddfcbf042?w=1000&h=2000&fit=crop', // Fitness training
-    'https://images.unsplash.com/photo-1574680096145-c2621f9c3e02?w=1000&h=2000&fit=crop', // Running fitness
-    // Health & Wellness themes
-    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1000&h=2000&fit=crop', // Health wellness
-    'https://images.unsplash.com/photo-1449452237370-4a4851014e1e?w=1000&h=2000&fit=crop', // Meditation peace
-    // Professional & Career themes
-    'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1000&h=2000&fit=crop', // Professional workspace
-    'https://images.unsplash.com/photo-1552664088-97bb3df61cf7?w=1000&h=2000&fit=crop', // Career growth
+    'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1000&h=2000&fit=crop', // Business meeting
+    // Romance & Love themes (Lovely Crush Kiara)
+    'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=1000&h=2000&fit=crop', // Romantic background
+    // Friendship & Companionship themes (Calm Friend Mira)
+
+    // Business & Startup themes (Startup Coach Blaze)
+
+    // Education & Learning themes (Study Buddy Neo)
+    'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1000&h=2000&fit=crop', // Books learning
+
+    'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=1000&h=2000&fit=crop', // Education focus
+    'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=1000&h=2000&fit=crop', // Learning journey
+    'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=1000&h=2000&fit=crop', // Knowledge expansion
+    // Wellness & Health themes (Zen Wellness Guide)
+    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1000&h=2000&fit=crop', // Wellness glow
+    'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1000&h=2000&fit=crop', // Gym energy
     // Nature & Calm themes
     'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1000&h=2000&fit=crop', // Ocean waves
-    'https://images.unsplash.com/photo-1469022563149-aa64dbd37dae?w=1000&h=2000&fit=crop', // Forest nature
+
     'https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=1000&h=2000&fit=crop', // Ocean sunset
+    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1000&h=2000&fit=crop', // Mountain peace
+    'https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=1000&h=2000&fit=crop', // Lake tranquility
+
+    'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1000&h=2000&fit=crop', // Night lights
+    'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1000&h=2000&fit=crop', // City atmosphere
+    'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=1000&h=2000&fit=crop', // Urban vibes
+    'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1000&h=2000&fit=crop', // Downtown energy
+
+    'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1000&h=2000&fit=crop', // Urban street
   ];
 
   @override
@@ -151,19 +159,77 @@ class _ChatScreenState extends State<ChatScreen> {
   String _getPersonaBackgroundImage(String personaName) {
     final name = personaName.toLowerCase();
 
-    if (name.contains('mentor') || name.contains('professional')) {
-      return 'assets/images/mentor.png';
-    } else if (name.contains('coach') || name.contains('life')) {
-      return 'assets/images/coach.png';
-    } else if (name.contains('crush') || name.contains('lovely')) {
-      return 'assets/images/crush.png';
-    } else if (name.contains('wellness') ||
-        name.contains('gym') ||
-        name.contains('health')) {
-      return 'assets/images/gym.png';
+    // Map of persona keywords to their corresponding images
+    const personaMap = {
+      'mentor.png': ['mentor', 'professional'],
+      'coach.png': ['coach', 'life', 'wellness', 'zen'],
+      'crush.png': ['crush', 'lovely', 'kiara'],
+      'gym.png': ['wellness', 'gym', 'health'],
+      'friend.png': ['friend', 'mira', 'calm'],
+      'startup.png': ['startup', 'blaze', 'coach'],
+      'study.png': ['study', 'neo', 'buddy'],
+    };
+
+    // Search for matching persona
+    for (final entry in personaMap.entries) {
+      if (entry.value.any((keyword) => name.contains(keyword))) {
+        return 'assets/images/${entry.key}';
+      }
     }
 
     return 'assets/images/coach.png'; // fallback
+  }
+
+  Widget _buildPersonaAvatar() {
+    final String? imageUrl = widget.persona['imageUrl'] as String?;
+    final String? imagePath = widget.persona['image'] as String?;
+    final String personaName = widget.persona['name'] as String;
+
+    // Priority 1: If persona has a network image URL, use it
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      return Image.network(
+        imageUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildFallbackAvatar();
+        },
+      );
+    }
+
+    // Priority 2: If persona has an asset image path, use it
+    if (imagePath != null && imagePath.isNotEmpty) {
+      return Image.asset(
+        imagePath,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildFallbackAvatar();
+        },
+      );
+    }
+
+    // Priority 3: Try to match persona name to an asset image
+    return Image.asset(
+      _getPersonaBackgroundImage(personaName),
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return _buildFallbackAvatar();
+      },
+    );
+  }
+
+  Widget _buildFallbackAvatar() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [const Color(0xFF4ECDC4), const Color(0xFF44A08D)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: const Center(
+        child: Icon(Icons.person, color: Colors.white, size: 20),
+      ),
+    );
   }
 
   void _showBackgroundSelector() {
@@ -321,33 +387,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
               ),
-              // Close button
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4ECDC4),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 8,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'Done',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
             ],
           ),
         );
@@ -460,35 +499,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   ),
                                 ],
                               ),
-                              child: ClipOval(
-                                child: Image.asset(
-                                  _getPersonaBackgroundImage(
-                                    widget.persona['name'] as String,
-                                  ),
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            const Color(0xFF4ECDC4),
-                                            const Color(0xFF44A08D),
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ),
-                                      ),
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.person,
-                                          color: Colors.white,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
+                              child: ClipOval(child: _buildPersonaAvatar()),
                             ),
                             const SizedBox(width: 12),
 
